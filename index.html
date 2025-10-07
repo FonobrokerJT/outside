@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="lv">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Generator</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f5f5f5;
+        }
+
+
+        .original-text {
+            font-size: 10px;
+            color: #666;
+            margin-top: 5px;
+            text-transform: uppercase;
+        }
+        .lv-text {
+            position: absolute;
+            left: 17px;
+            top: 30%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+        }
+        .lv-flag {
+            position: absolute;
+            left: 13px;
+            top: 70%;
+            transform: translateY(-50%);
+            width: 30px;
+            height: 15px;
+            background: linear-gradient(180deg, #840000 20%, #ffffff 55%, #840000 20%);
+            border: 1px solid #000000;
+            border-radius: 3px;
+        }
+        .license-plate-blue {
+            background: linear-gradient(90deg, blue 17%, white 17%);
+            border: 2px solid #000000;
+            border-radius: 8px;
+            padding: 20px 35px;
+            font-size: 24px;
+            margin: 20px 0;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            position: relative;
+            min-width: 280px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            color: black;
+        }
+        
+        .license-number-blue {
+            font-size: 50px;
+            letter-spacing: 3px;
+            margin: 0 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .electro-license-plate {
+            background: linear-gradient(90deg, blue 17%, white 17%);
+            border: 2px solid #000000;
+            border-radius: 8px;
+            padding: 20px 35px;
+            margin: 20px 0;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            position: relative;
+            min-width: 280px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            color: blue;
+            
+        }
+        
+        .vehicle-info {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            min-width: 300px;
+        }
+
+        .vehicle-model {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .vehicle-details {
+            display: flex;
+            justify-content: column;
+            gap: 8px;
+        }
+
+        .vehicle-details {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .detail-label {
+            font-weight: bold;
+            color: #666;
+        }
+        
+        .detail-value {
+            color: #333;
+        }
+
+        .electric-badge {
+            background-color: #4caf50;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin-left: 10px;
+        }
+
+        img {
+            margin-top: 20px;
+            border-radius: 10px;
+            max-width: 300px;
+            height: auto;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        
+        button {
+            margin-top: 20px;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #9B1B30;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+        
+        button:hover {
+            background-color: #7A1526;
+            transform: scale(1.05);
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        
+        .plates-container {
+            display: flex;
+            gap: 30px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .plate-wrapper {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Vehicle Generator</h1>
+        <div class="plate-wrapper">
+            {% if electric %}
+            <div class="electro-license-plate">
+                <div class="lv-text">LV</div>
+                <div class="lv-flag"></div>
+                <div class="license-number-blue">{{ letters }}-{{ number }}</div>
+            </div>
+            {% else %}
+            <div class="license-plate-blue">
+                <div class="license-number-blue">{{ letters }}-{{ number }}</div>
+                <div class="lv-flag"></div>
+                <div class="lv-text">LV</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="vehicle-info">
+        <div class="vehicle-model">
+            {{ car_model }}
+            {% if electric %}
+            <span class="electric-badge">Electric</span>
+            {% endif %}
+        </div>
+        <div class="vehicle-details">
+            <div class="vehicle-detail">
+                <span class="detail-label">Vehicle Type:</span>
+                <span class="detail-value">{{ car_type }}</span>
+            </div>
+            <div class="vehicle-detail">
+                <span class="detail-label">Body Type:</span>
+                <span class="detail-value">{{ body_type }}</span>
+            </div>
+        </div>
+    </div>
+    
+    <img src="{{ url_for('static', filename=image) }}" alt="Random Vehicle">
+    <button onclick="window.location.reload();">Generate</button>
+</body>
+</html>
+
+<script>
+    function generateVehicle() {
+        const randomNumber = Math.floor(Math.random()* 9999) + 1;
+        const formattedNumber = randomNumber.toString().padStart(4, '0');
+
+        const letters = ['AB', 'CD', 'EF', 'GH', 'IJ', 'KL', 'MN', 'OP', 'QR', 'ST', 'UV', 'WX', 'YZ', 'EX', 'EY'];
+        const randomLetter = letters[Math.floor(Math.random() * letters.length)];
+
+        const carModels = ['Tesla_Model_S', 'Tesla_Model_3', 'Tesla_Model_X', 'Tesla_Model_Y', 'Tesla_Cybertruck', 'Tesla_Roadster', 'BYD_Seal', 'BYD_Dolphin', 'BYD_Atto_3', 'BYD_Han', 'BYD_Tang', 'BYD_Seagull', 'BYD_Frigate_07', 'BYD_Destroyer_05', 'BYD_E2', 'BYD_E3', 'BYD_D1', 'BYD_T3', 'Volkswagen_ID3', 'Volkswagen_ID4', 'Volkswagen_ID5', 'Volkswagen_ID6', 'Volkswagen_ID7', 'Volkswagen_ID_Buzz', 'Volkswagen_e-Golf', 'Volkswagen_e-Up!', 'Audi_Q4_e-tron', 'Audi_Q8_e-tron', 'Audi_e-tron_GT', 'Audi_e-tron', 'Audi_Q2L_e-tron', 'Audi_A6_e-tron', 'BMW_i3', 'BMW_i4', 'BMW_i5', 'BMW_i7', 'BMW_iX', 'BMW_iX2', 'BMW_iX3', 'BMW_iX8', 'Mercedes-Benz_EQA', 'Mercedes-Benz_EQB', 'Mercedes-Benz_EQC', 'Mercedes-Benz_EQE', 'Mercedes-Benz_EQS', 'Mercedes-Benz_EQV', 'Mercedes-Benz_EQT', 'Mercedes-Benz_eSprinter', 'General_Motors_Chevrolet_Bolt_EV', 'General_Motors_Cadillac_Lyriq', 'General_Motors_Celestiq', 'General_Motors_GMC_Hummer_EV', 'General_Motors_BrightDrop_Zevo', 'Ford_Mustang_Mach-E', 'Ford_F-150_Lightning', 'Ford_E-Transit', 'Ford_Explorer_EV', 'Peugeot_e-208', 'Peugeot_e-2008', 'Peugeot_e-308', 'Opel_Mokka-e', 'Opel_Corsa-e', 'Fiat_500e', 'Fiat_DS_3_E-Tense', 'Nissan_Leaf', 'Nissan_Ariya', 'Renault_Zoe', 'Renault_Megane_E-Tech', 'Renault_Kangoo_E-Tech', 'Mitsubishi_i-MiEV', 'Hyundai_Ioniq_5', 'Hyundai_Ioniq_6', 'Hyundai_Kona_Electric', 'Kia_EV6', 'Kia_EV9', 'Kia_Niro_EV', 'Kia_Genesis_GV60', 'Kia_Electrified_GV70', 'Geometry_A', 'Geometry_C', 'Geometry_E', 'Zeekr_001', 'Zeekr_009', 'Volvo_EX30', 'Volvo_EX90', 'Volvo_C40', 'Volvo_XC40_Recharge', 'Polestar_1', 'Polestar_2', 'Polestar_3', 'Polestar_4', 'SAIC_Roewe_i5', 'SAIC_i6', 'SAIC_Marvel_R', 'Great_Wall_Motors_Ora_Good_Cat', 'Great_Wall_Motors_Ballet_Cat', 'Great_Wall_Motors_Ligtning_Cat', 'Great_Wall_Motors_Sakura', 'XPeng_G3', 'XPeng_G9', 'XPeng_P5', 'XPeng_P7', 'XPeng_P7i', 'XPeng_X9', 'Nio_ES6', 'Nio_ES7', 'Nio_ES8', 'Nio_EC6', 'Nio_EC7', 'Nio_ET5', 'Nio_ET7', 'Nio_ET9', 'Li_Auto_L7', 'Li_Auto_L8', 'Li_Auto_L9', 'Li_Auto_Mega', 'Rivian_R1T', 'Rivian_R1S', 'Rivian_R2', 'Rivian_R3', 'Rivian_EDV', 'Lucid_Motors_Lucid_Air', 'Lucid_Motors_Gravity', 'Fisker_Ocean', 'Fisker_Pear', 'Fisker_Alaska', 'Fisker_Ronin', 'Mahindra_XUV400', 'Mahindra_e20', 'Mahindra_eVerito', 'Tata_Motors_Nexon_EV', 'Tata_Motors_Tigor_EV', 'Tata_Motors_Tiago_EV', 'MG_Motors_MG_4', 'MG_Motors_MG_ZS_EV', 'MG_Motors_MG_5', 'Subaru_Solterra', 'Toyota_bZ4X', 'Toyota_bZ3', 'Toyota_bZ5X', 'Toyota_Mirai', 'Honda_e', 'Honda_e:Ny1', 'Honda_e:NP1', 'Honda_Prologue', 'Mazda_MX-30', 'Sony-Honda_Afeela', 'Dongfeng_Aeoulus_E70', 'Dongfeng_Voyah_Free', 'Dongfeng_岚图梦想家'];
+        const randomCarModel = carModels[Math.floor(Math.random() * carModels.length)];
+
+        const bodyTypes = ['Sedan', 'Hatchback', 'SUV', 'Coupe', 'Convertible', 'Wagon', 'Van', 'Crossover', 'Minivan'];
+        const randomBodyType = bodyTypes[Math.floor(Math.random() * bodyTypes.length)];
+        
+        const isElectric = randomLetters === 'EY' || randomLetters === 'EX';
+        document.getElementById('license-number').innerText = `${randomLetter}-${formattedNumber}`;
+        document.getElementById('car-model').innerText = randomCarModel.replace(/_/g, ' ');
+        document.getElementById('body-type').innerText = randomBodyType;
+        document.getElementById('is-electric').innerText = isElectric ? 'Yes' : 'No';
+
+        document.getElementById('car-model').innerHTML = randomModel + (isElectric ? ' <span class="electric-badge">Electric</span>' : '');
+        document.getElementById('car-type').textContent = isElectric ? 'Electric' : 'Regular';
+            document.getElementById('body-type').textContent = randomBodyType;
+            
+        
+            const dynamicPlate = document.getElementById('dynamic-plate');
+            if (isElectric) {
+                dynamicPlate.className = 'license-plate-green';
+                dynamicPlate.querySelector('.lv-text').textContent = 'LV';
+            } else {
+                dynamicPlate.className = 'license-plate-blue';
+                dynamicPlate.querySelector('.lv-text').textContent = 'LV';
+            }
+            
+
+            document.getElementById('car-image').style.display = 'block';
+        }
+        
+        
+        window.onload = generateVehicle;
+    </script>
+</body>
+</html>
