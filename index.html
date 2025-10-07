@@ -5,174 +5,255 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vehicle Generator</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         body {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
             text-align: center;
             background-color: #f5f5f5;
-        }
-
-
-        .original-text {
-            font-size: 10px;
-            color: #666;
-            margin-top: 5px;
-            text-transform: uppercase;
-        }
-        .lv-text {
-            position: absolute;
-            left: 17px;
-            top: 30%;
-            transform: translateY(-50%);
-            font-size: 20px;
-            font-weight: bold;
-            color: white;
-            text-transform: uppercase;
-        }
-        .lv-flag {
-            position: absolute;
-            left: 13px;
-            top: 70%;
-            transform: translateY(-50%);
-            width: 30px;
-            height: 15px;
-            background: linear-gradient(180deg, #840000 20%, #ffffff 55%, #840000 20%);
-            border: 1px solid #000000;
-            border-radius: 3px;
-        }
-        .license-plate-blue {
-            background: linear-gradient(90deg, blue 17%, white 17%);
-            border: 2px solid #000000;
-            border-radius: 8px;
-            padding: 20px 35px;
-            font-size: 24px;
-            margin: 20px 0;
-            font-family: 'Arial', sans-serif;
-            font-weight: bold;
-            position: relative;
-            min-width: 280px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            color: black;
-        }
-        
-        .license-number-blue {
-            font-size: 50px;
-            letter-spacing: 3px;
-            margin: 0 0;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        }
-        
-        .electro-license-plate {
-            background: linear-gradient(90deg, blue 17%, white 17%);
-            border: 2px solid #000000;
-            border-radius: 8px;
-            padding: 20px 35px;
-            margin: 20px 0;
-            font-family: 'Arial', sans-serif;
-            font-weight: bold;
-            position: relative;
-            min-width: 280px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            color: blue;
-            
-        }
-        
-        .vehicle-info {
-            background-color: white;
             padding: 20px;
-            border-radius: 10px;
-            margin: 15px 0;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            min-width: 300px;
         }
-
-        .vehicle-model {
-            font-size: 24px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .vehicle-details {
+        
+        .container {
             display: flex;
-            justify-content: column;
-            gap: 8px;
-        }
-
-        .vehicle-details {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        .detail-label {
-            font-weight: bold;
-            color: #666;
-        }
-        
-        .detail-value {
-            color: #333;
-        }
-
-        .electric-badge {
-            background-color: #4caf50;
-            color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            margin-left: 10px;
-        }
-
-        img {
-            margin-top: 20px;
-            border-radius: 10px;
-            max-width: 300px;
-            height: auto;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-        }
-        
-        button {
-            margin-top: 20px;
-            padding: 12px 24px;
-            font-size: 16px;
-            cursor: pointer;
-            background-color: #9B1B30;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            transition: all 0.3s;
-        }
-        
-        button:hover {
-            background-color: #7A1526;
-            transform: scale(1.05);
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            max-width: 600px;
+            width: 100%;
         }
         
         h1 {
             color: #333;
             margin-bottom: 10px;
+            font-size: 2rem;
         }
         
-        .plates-container {
-            display: flex;
-            gap: 30px;
+        /* Numurzīmes stili */
+        .license-plate {
+            background: linear-gradient(90deg, blue 17%, white 17%);
+            border: 3px solid #000000;
+            border-radius: 10px;
+            padding: 25px 40px;
             margin: 20px 0;
-            flex-wrap: wrap;
-            justify-content: center;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            position: relative;
+            min-width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            color: black;
         }
         
-        .plate-wrapper {
+        .electro-license-plate {
+            background: linear-gradient(90deg, blue 17%, white 17%);
+            border: 3px solid #000000;
+            border-radius: 10px;
+            padding: 25px 40px;
+            margin: 20px 0;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            position: relative;
+            min-width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            color: blue;
+        }
+        
+        .license-number {
+            font-size: 3rem;
+            letter-spacing: 4px;
+            margin: 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            font-weight: bold;
+        }
+        
+        .lv-flag {
+            position: absolute;
+            left: 15px;
+            top: 70%;
+            transform: translateY(-50%);
+            width: 35px;
+            height: 20px;
+            background: linear-gradient(180deg, #840000 33%, #ffffff 33%, #ffffff 66%, #840000 66%);
+            border: 1px solid #000000;
+            border-radius: 4px;
+        }
+        
+        .lv-text {
+            position: absolute;
+            left: 20px;
+            top: 30%;
+            transform: translateY(-50%);
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: white;
+            text-transform: uppercase;
+        }
+        
+        /* Auto informācijas panelis */
+        .vehicle-info {
+            background-color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin: 15px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .vehicle-model {
+            font-size: 1.8rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #333;
+            line-height: 1.3;
+        }
+        
+        .vehicle-details {
             display: flex;
             flex-direction: column;
+            gap: 12px;
+        }
+        
+        .vehicle-detail {
+            display: flex;
+            justify-content: space-between;
             align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .detail-label {
+            font-weight: bold;
+            color: #666;
+            font-size: 1rem;
+        }
+        
+        .detail-value {
+            color: #333;
+            font-size: 1rem;
+            font-weight: 500;
+        }
+        
+        .electric-badge {
+            background-color: #4caf50;
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-left: 10px;
+            font-weight: bold;
+        }
+        
+        /* Attēla stils */
+        .car-image-container {
+            margin-top: 20px;
+            width: 100%;
+            max-width: 400px;
+        }
+        
+        .car-image {
+            width: 100%;
+            height: auto;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            border: 3px solid #fff;
+        }
+        
+        /* Pogas stils */
+        .generate-btn {
+            margin-top: 20px;
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            background-color: #9B1B30;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            min-width: 200px;
+        }
+        
+        .generate-btn:hover {
+            background-color: #7A1526;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        /* Responsive dizains */
+        @media (max-width: 768px) {
+            .container {
+                gap: 15px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .license-plate,
+            .electro-license-plate {
+                min-width: 280px;
+                padding: 20px 30px;
+            }
+            
+            .license-number {
+                font-size: 2.5rem;
+            }
+            
+            .vehicle-model {
+                font-size: 1.5rem;
+            }
+            
+            .car-image-container {
+                max-width: 350px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+            
+            .license-plate,
+            .electro-license-plate {
+                min-width: 250px;
+                padding: 15px 25px;
+            }
+            
+            .license-number {
+                font-size: 2rem;
+            }
+            
+            .lv-text {
+                font-size: 1rem;
+                left: 15px;
+            }
+            
+            .lv-flag {
+                width: 30px;
+                height: 18px;
+                left: 12px;
+            }
+            
+            .vehicle-info {
+                padding: 20px;
+            }
+            
+            .vehicle-model {
+                font-size: 1.3rem;
+            }
         }
          </style>
 </head>
