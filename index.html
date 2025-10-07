@@ -377,41 +377,58 @@
             { key: 'mercedes_amg_one', name: 'Mercedes-AMG One', bodyType: 'Coupe', isElectric: false, image: 'cars/mercedes_amg_one.jpg' }
         ];
 
-        function generateVehicle() {
+       function generateVehicle() {
+            // Nejaušs numurs
             const randomNumber = Math.floor(Math.random() * 9999) + 1;
             const formattedNumber = randomNumber.toString().padStart(4, '0');
             
+            // Nejauši burti
             const regularLetters = ["AB", "CD", "EF", "GH", "IJ", "KL", "MN", "OP", "QR", "ST", "UV", "WX", "YZ"];
             const electricLetters = ["EY", "EX"];
-            const allLetters = [...regularLetters, ...electricLetters];
             
-            const randomLetters = allLetters[Math.floor(Math.random() * allLetters.length)];
-            const isElectric = electricLetters.includes(randomLetters);
+            // Izvēlas nejaušu auto
+            const randomCar = allCars[Math.floor(Math.random() * allCars.length)];
+            const isElectric = randomCar.isElectric;
             
-            const randomModel = carModels[Math.floor(Math.random() * carModels.length)];
-            const randomBodyType = bodyTypes[Math.floor(Math.random() * bodyTypes.length)];
+            // Izvēlas burtus atbilstoši auto tipam
+            const randomLetters = isElectric ? 
+                electricLetters[Math.floor(Math.random() * electricLetters.length)] :
+                regularLetters[Math.floor(Math.random() * regularLetters.length)];
             
+            // Atjaunina numurzīmi
             document.getElementById('plate-number').textContent = `${randomLetters}-${formattedNumber}`;
             document.getElementById('license-text').textContent = `${randomLetters}-${formattedNumber}`;
             
-            document.getElementById('car-model').innerHTML = randomModel;
+            // Atjaunina auto informāciju
+            document.getElementById('car-model').innerHTML = randomCar.name;
             document.getElementById('car-type').textContent = isElectric ? 'Electric' : 'Regular';
-            document.getElementById('body-type').textContent = randomBodyType;
+            document.getElementById('body-type').textContent = randomCar.bodyType;
             
+            // Elektriskā auto atzīme
             const electricBadge = document.getElementById('electric-badge');
-            electricBadge.style.display = isElectric ? 'inline' : 'none';
+            if (isElectric) {
+                electricBadge.style.display = 'inline';
+                electricBadge.textContent = 'Electric';
+            } else {
+                electricBadge.style.display = 'none';
+            }
             
+            // Maina numurzīmes stilu
             const licensePlate = document.getElementById('license-plate');
             if (isElectric) {
                 licensePlate.className = 'electro-license-plate';
             } else {
-                licensePlate.className = 'license-plate-blue';
+                licensePlate.className = 'license-plate';
             }
-
+            
+            // Atjaunina attēlu
             const carImage = document.getElementById('car-image');
-            carImage.style.display = 'none';
+            carImage.src = randomCar.image;
+            carImage.alt = randomCar.name;
+            carImage.style.display = 'block';
         }
         
+        // Ģenerē pirmo auto kad lapa ielādējas
         window.onload = generateVehicle;
     </script>
 </body>
