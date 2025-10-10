@@ -5,25 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vehicle Generator</title>
     <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
         body {
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             font-family: Arial, sans-serif;
             text-align: center;
             background-color: #f5f5f5;
+            padding: 20px;
         }
 
-
-        .original-text {
-            font-size: 10px;
-            color: #666;
-            margin-top: 5px;
-            text-transform: uppercase;
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+            max-width: 500px;
+            width: 100%;
         }
+
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+
+        /* REGULĀRĀ NUMURZĪME */
+        .license-plate {
+            background: linear-gradient(90deg, #9B1B30 17%, white 17%);
+            border: 2px solid #000000;
+            border-radius: 8px;
+            padding: 20px 35px;
+            margin: 20px 0;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            position: relative;
+            min-width: 280px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            color: black;
+        }
+
+        /* ELEKTRISKĀ NUMURZĪME */
+        .electric-license-plate {
+            background: linear-gradient(90deg, #9B1B30 17%, white 17%);
+            border: 2px solid #000000;
+            border-radius: 8px;
+            padding: 20px 35px;
+            margin: 20px 0;
+            font-family: 'Arial', sans-serif;
+            font-weight: bold;
+            position: relative;
+            min-width: 280px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            color: #0066cc;
+        }
+
+        .license-number {
+            font-size: 50px;
+            letter-spacing: 3px;
+            margin: 0;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
         .lv-text {
             position: absolute;
             left: 17px;
@@ -34,6 +88,7 @@
             color: white;
             text-transform: uppercase;
         }
+
         .lv-flag {
             position: absolute;
             left: 13px;
@@ -41,75 +96,42 @@
             transform: translateY(-50%);
             width: 30px;
             height: 15px;
-            background: linear-gradient(180deg, #840000 20%, #ffffff 55%, #840000 20%);
+            background: linear-gradient(180deg, #840000 33%, #ffffff 33%, #ffffff 66%, #840000 66%);
             border: 1px solid #000000;
             border-radius: 3px;
         }
-        .license-plate-blue {
-            background: linear-gradient(90deg, blue 17%, white 17%);
-            border: 2px solid #000000;
-            border-radius: 8px;
-            padding: 20px 35px;
-            font-size: 24px;
-            margin: 20px 0;
-            font-family: 'Arial', sans-serif;
-            font-weight: bold;
-            position: relative;
-            min-width: 280px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            color: black;
-        }
-        
-        .license-number-blue {
-            font-size: 50px;
-            letter-spacing: 3px;
-            margin: 0 0;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-        }
-        
-        .electro-license-plate {
-            background: linear-gradient(90deg, blue 17%, white 17%);
-            border: 2px solid #000000;
-            border-radius: 8px;
-            padding: 20px 35px;
-            margin: 20px 0;
-            font-family: 'Arial', sans-serif;
-            font-weight: bold;
-            position: relative;
-            min-width: 280px;
-            text-align: center;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            color: blue;
-            
-        }
-        
+
         .vehicle-info {
             background-color: white;
-            padding: 20px;
+            padding: 25px;
             border-radius: 10px;
             margin: 15px 0;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-            min-width: 300px;
+            width: 100%;
+            max-width: 400px;
         }
 
         .vehicle-model {
             font-size: 24px;
             font-weight: bold;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
             color: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
         }
 
         .vehicle-details {
             display: flex;
-            justify-content: column;
-            gap: 8px;
+            flex-direction: column;
+            gap: 12px;
         }
 
-        .vehicle-details {
+        .vehicle-detail {
             display: flex;
             justify-content: space-between;
-            padding: 5px 0;
+            padding: 8px 0;
             border-bottom: 1px solid #eee;
         }
 
@@ -125,178 +147,111 @@
         .electric-badge {
             background-color: #4caf50;
             color: white;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-size: 12px;
-            margin-left: 10px;
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 14px;
+            font-weight: bold;
         }
 
-        img {
-            margin-top: 20px;
-            border-radius: 10px;
-            max-width: 300px;
-            height: auto;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        .car-image-container {
+            margin: 20px 0;
         }
-        
+
+        .car-image {
+            border-radius: 10px;
+            max-width: 100%;
+            height: auto;
+            max-height: 300px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            display: block;
+        }
+
         button {
-            margin-top: 20px;
-            padding: 12px 24px;
-            font-size: 16px;
+            margin-top: 10px;
+            padding: 15px 30px;
+            font-size: 18px;
             cursor: pointer;
             background-color: #9B1B30;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             transition: all 0.3s;
+            font-weight: bold;
         }
         
         button:hover {
             background-color: #7A1526;
             transform: scale(1.05);
         }
-        
-        h1 {
-            color: #333;
-            margin-bottom: 10px;
-        }
-        
-        .plates-container {
-            display: flex;
-            gap: 30px;
-            margin: 20px 0;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        
-        .plate-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-         </style>
+    </style>
 </head>
 <body>
     <div class="container">
         <h1>Vehicle Generator</h1>
         
         <div id="license-plate" class="license-plate">
-            <div class="license-number" id="plate-number"></div>
+            <div class="license-number" id="plate-number">AB-1234</div>
             <div class="lv-flag"></div>
             <div class="lv-text">LV</div>
         </div>
         
         <div class="vehicle-info">
             <div class="vehicle-model" id="car-model">
+                Vehicle Model
                 <span class="electric-badge" id="electric-badge" style="display: none;">Electric</span>
             </div>
             <div class="vehicle-details">
                 <div class="vehicle-detail">
                     <span class="detail-label">Vehicle Type:</span>
-                    <span class="detail-value" id="car-type"></span>
+                    <span class="detail-value" id="car-type">-</span>
                 </div>
                 <div class="vehicle-detail">
                     <span class="detail-label">Body Type:</span>
-                    <span class="detail-value" id="body-type"></span>
+                    <span class="detail-value" id="body-type">-</span>
                 </div>
                 <div class="vehicle-detail">
                     <span class="detail-label">License Plate:</span>
-                    <span class="detail-value" id="license-text"></span>
+                    <span class="detail-value" id="license-text">-</span>
                 </div>
             </div>
         </div>
         
         <div class="car-image-container">
-            <img id="car-image" class="car-image" src="" alt="Random Vehicle" style="display: car-image;">
+            <img id="car-image" class="car-image" src="" alt="Random Vehicle" style="display: none;">
         </div>
-    <button onclick="generateVehicle()">Generate</button>
+        
+        <button onclick="generateVehicle()">Generate New Vehicle</button>
+    </div>
 
-<script>
+    <script>
         const allCars = [
-            { key: 'Tesla_Model_S', name: 'Tesla Model S', bodyType: 'Sedan', isElectric: true, image: 'cars/Tesla_Model_S.jpeg' },
-            { key: 'Tesla_Model_3', name: 'Tesla Model 3', bodyType: 'Sedan', isElectric: true, image: 'cars/Tesla_Model_3.jpeg' },
-            { key: 'Tesla_Model_X', name: 'Tesla Model X', bodyType: 'SUV', isElectric: true, image: 'cars/Tesla_Model_X.jpeg' },
-            { key: 'Tesla_Model_Y', name: 'Tesla Model Y', bodyType: 'SUV', isElectric: true, image: 'cars/Tesla_Model_Y.jpeg' },
-            { key: 'Tesla_Cybertruck', name: 'Tesla Cybertruck', bodyType: 'Pickup truck', isElectric: true, image: 'cars/Tesla_Cybertruck.jpeg' },
-            { key: 'Tesla_Roadster', name: 'Tesla Roadster', bodyType: 'Roadster', isElectric: true, image: 'cars/Tesla_Roadster.jpeg' },
-            { key: 'BYD_Seal', name: 'BYD Seal', bodyType: 'Sedan', isElectric: true, image: 'cars/BYD_Seal.jpeg' },
-            { key: 'BYD_Dolphin', name: 'BYD Dolphin', bodyType: 'Hatchback', isElectric: true, image: 'cars/BYD_Dolphin.jpeg' },
-            { key: 'BYD_Atto_3', name: 'BYD Atto 3', bodyType: 'SUV', isElectric: true, image: 'cars/BYD_Atto_3.jpeg' },
-            { key: 'BYD_Han', name: 'BYD Han', bodyType: 'Sedan', isElectric: true, image: 'cars/BYD_Han.jpeg' },
-            { key: 'BYD_Tang', name: 'BYD Tang', bodyType: 'SUV', isElectric: true, image: 'cars/BYD_Tang.jpeg' },
-            { key: 'BYD_Seagull', name: 'BYD Seagull', bodyType: 'Hatchback', isElectric: true, image: 'cars/BYD_Seagull.jpeg' },
-            { key: 'BYD_Frigate_07', name: 'BYD Frigate 07', bodyType: 'SUV', isElectric: true, image: 'cars/BYD_Frigate_07.jpeg' },
-            { key: 'BYD_Destroyer_05', name: 'BYD Destroyer 05', bodyType: 'Sedan', isElectric: true, image: 'cars/BYD_Destroyer_05.jpeg' },
-            { key: 'BYD_E2', name: 'BYD E2', bodyType: 'Hatchback', isElectric: true, image: 'cars/BYD_E2.jpeg' },
-            { key: 'BYD_E3', name: 'BYD E3', bodyType: 'Sedan', isElectric: true, image: 'cars/BYD_E3.jpeg' },
-            { key: 'BYD_D1', name: 'BYD D1', bodyType: 'Hatchback', isElectric: true, image: 'cars/BYD_D1.jpeg' },
-            { key: 'BYD_T3', name: 'BYD T3', bodyType: 'Minivan', isElectric: true, image: 'cars/BYD_T3.jpeg' },
-            { key: 'Volkswagen_ID3', name: 'Volkswagen ID.3', bodyType: 'Hatchback', isElectric: true, image: 'cars/Volkswagen_ID3.jpg' },
-            { key: 'Volkswagen_ID4', name: 'Volkswagen ID.4', bodyType: 'SUV', isElectric: true, image: 'cars/Volkswagen_ID4.jpeg' },
-            { key: 'Volkswagen_ID5', name: 'Volkswagen ID.5', bodyType: 'Coupe', isElectric: true, image: 'cars/Volkswagen_ID5.jpeg' },
-            { key: 'Volkswagen_ID6', name: 'Volkswagen ID.6', bodyType: 'SUV', isElectric: true, image: 'cars/Volkswagen_ID6.jpeg' },
-            { key: 'Volkswagen_ID7', name: 'Volkswagen ID.7', bodyType: 'Hatchback', isElectric: true, image: 'cars/Volkswagen_ID7.jpeg' },
-            { key: 'Volkswagen_ID_Buzz', name: 'Volkswagen ID Buzz', bodyType: 'Minivan', isElectric: true, image: 'cars/Volkswagen_ID_Buzz.jpeg' },
-            { key: 'Volkswagen_e-Golf', name: 'Volkswagen e-Golf', bodyType: 'Small Hatchback', isElectric: true, image: 'cars/Volkswagen_e-Golf.jpeg' },
-            { key: 'Volkswagen_e-Up!', name: 'Volkswagen e-Up!', bodyType: 'Hatchback', isElectric: true, image: 'cars/Volkswagen_e-Up!.jpeg' },
-            { key: 'Audi_Q4_e-tron', name: 'Audi Q4 e-tron', bodyType: 'SUV', isElectric: true, image: 'cars/Audi_Q4_e-tron.jpeg' },
-            { key: 'Audi_Q8_e-tron', name: 'Audi Q8 e-tron', bodyType: 'SUV', isElectric: true, image: 'cars/Audi_Q8_e-tron.jpeg' },
-            { key: 'Audi_e-tron_GT', name: 'Audi e-tron GT', bodyType: 'Saloon', isElectric: true, image: 'cars/Audi_e-tron_GT.jpeg' },
-            { key: 'Audi_e-tron', name: 'Audi e-tron', bodyType: 'SUV', isElectric: true, image: 'cars/Audi_e-tron.jpeg' },
-            { key: 'Audi_Q2L_e-tron', name: 'Audi Q2L e-tron', bodyType: 'SUV', isElectric: true, image: 'cars/Audi_Q2L_e-tron.jpeg' },
-            { key: 'Audi_A6_e-tron', name: 'Audi A6 e-tron', bodyType: 'Station Wagon', isElectric: true, image: 'cars/Audi_A6_e-tron.jpeg' },
-            { key: 'BMW_i3', name: 'BMW i3', bodyType: 'Hatchback', isElectric: true, image: 'cars/BMW_i3.jpeg' },
-            { key: 'BMW_i4', name: 'BMW i4', bodyType: 'Sedan', isElectric: true, image: 'cars/BMW_i4.jpeg' },
-            { key: 'BMW_i5', name: 'BMW i5', bodyType: 'Sedan', isElectric: true, image: 'cars/BMW_i5.jpeg' },
-            { key: 'BMW_i7', name: 'BMW i7', bodyType: 'Sedan', isElectric: true, image: 'cars/BMW_i7.jpeg' },
-            { key: 'BMW_iX', name: 'BMW iX', bodyType: 'SUV', isElectric: true, image: 'cars/BMW_iX.jpeg' },
-            { key: 'BMW_iX2', name: 'BMW iX2', bodyType: 'SUV-Coupe', isElectric: true, image: 'cars/BMW_iX2.jpeg' },
-            { key: 'BMW_iX3', name: 'BMW iX3', bodyType: 'SUV', isElectric: true, image: 'cars/BMW_iX3.jpeg' },
-            { key: 'BMW_i8', name: 'BMW i8', bodyType: 'Coupe', isElectric: true, image: 'cars/BMW_i8.jpeg' },
-            { key: 'Mercedes-Benz_EQA', name: 'Mercedes-Benz EQA', bodyType: 'SUV', isElectric: true, image: 'cars/Mercedes-Benz_EQA.jpeg' },
-            { key: 'Mercedes-Benz_EQB', name: 'Mercedes-Benz EQB', bodyType: 'SUV', isElectric: true, image: 'cars/Mercedes-Benz_EQB.jpeg' },
-            { key: 'Mercedes-Benz_EQC', name: 'Mercedes-Benz EQC', bodyType: 'SUV', isElectric: true, image: 'cars/Mercedes-Benz_EQC.avif' },
-            { key: 'Mercedes-Benz_EQE', name: 'Mercedes-Benz EQE', bodyType: 'Sedan', isElectric: true, image: 'cars/Mercedes-Benz_EQE.jpeg' },
-            { key: 'Mercedes-Benz_EQS', name: 'Mercedes-Benz EQS', bodyType: 'Sedan', isElectric: true, image: 'cars/Mercedes-Benz_EQS.jpeg' },
-            { key: 'Mercedes-Benz_EQV', name: 'Mercedes-Benz EQV', bodyType: 'Van', isElectric: true, image: 'cars/Mercedes-Benz_EQV.jpeg' },
-            { key: 'Mercedes-Benz_EQT', name: 'Mercedes-Benz EQT', bodyType: 'Minivan', isElectric: true, image: 'cars/Mercedes-Benz_EQT.png' },
-            { key: 'Mercedes-Benz_eSprinter', name: 'Mercedes-Benz eSprinter', bodyType: 'Van', isElectric: true, image: 'cars/Mercedes-Benz_eSprinter.jpeg' },
-            { key: 'General_Motors_Chevrolet_Bolt_EV', name: 'Chevrolet Bolt EV', bodyType: 'SUV', isElectric: true, image: 'cars/General_Motors_Chevrolet_Bolt_EV.jpeg' },
-            { key: 'General_Motors_Cadillac_Lyriq', name: 'Cadillac Lyriq', bodyType: 'SUV', isElectric: true, image: 'cars/General_Motors_Cadillac_Lyriq.jpeg' },
-            { key: 'General_Motors_Celestiq', name: 'Cadillac Celestiq', bodyType: 'Sedan', isElectric: true, image: 'cars/General_Motors_Celestiq.jpeg' },
-            { key: 'General_Motors_GMC_Hummer_EV', name: 'GMC Hummer EV', bodyType: 'Pickup truck', isElectric: true, image: 'cars/General_Motors_GMC_Hummer_EV.avif' },
-            { key: 'General_Motors_BrightDrop_Zevo', name: 'BrightDrop Zevo', bodyType: 'Van', isElectric: true, image: 'cars/General_Motors_BrightDrop_Zevo.jpg' },
-            { key: 'Ford_Mustang_Mach-E', name: 'Ford Mustang Mach-E', bodyType: 'SUV', isElectric: true, image: 'cars/Ford_Mustang_Mach-E.jpg' },
-            { key: 'Ford_F-150_Lightning', name: 'Ford F-150 Lightning', bodyType: 'Pickup Truck', isElectric: true, image: 'cars/Ford_F-150_Lightning.jpg' },
-            { key: 'Ford_E-Transit', name: 'Ford E-Transit', bodyType: 'Van', isElectric: true, image: 'cars/Ford_E-Transit.jpeg' },
-            { key: 'Ford_Explorer_EV', name: 'Ford Explorer EV', bodyType: 'SUV', isElectric: true, image: 'cars/Ford_Explorer_EV.jpeg' },
-            { key: 'Peugeot_e-208', name: 'Peugeot e-208', bodyType: 'Hatchback', isElectric: true, image: 'cars/Peugeot_e-208.jpeg' },
-            { key: 'Peugeot_e-2008', name: 'Peugeot e-2008', bodyType: 'SUV', isElectric: true, image: 'cars/Peugeot_e-2008.jpeg' },
-            { key: 'Peugeot_e-308', name: 'Peugeot e-308', bodyType: 'Hatchback', isElectric: true, image: 'cars/Peugeot_e-308.jpeg' },
-            { key: 'Opel_Mokka-e', name: 'Opel Mokka-e', bodyType: 'SUV', isElectric: true, image: 'cars/Opel_Mokka-e.jpeg' },
-            { key: 'Opel_Corsa-e', name: 'Opel Corsa-e', bodyType: 'Hatchback', isElectric: true, image: 'cars/Opel_Corsa-e.jpeg' },
-            { key: 'Fiat_500e', name: 'Fiat 500e', bodyType: 'Hatchback', isElectric: true, image: 'cars/Fiat_500e.jpeg' },
-            { key: 'Fiat_DS_3_E-Tense', name: 'DS 3 E-Tense', bodyType: 'Hatchback', isElectric: true, image: 'cars/Fiat_DS_3_E-Tense.jpeg' },
-            { key: 'Nissan_Leaf', name: 'Nissan Leaf', bodyType: 'Hatchback', isElectric: true, image: 'cars/Nissan_Leaf.jpeg' },
-            { key: 'Nissan_Ariya', name: 'Nissan Ariya', bodyType: 'SUV', isElectric: true, image: 'cars/Nissan_Ariya.jpeg' },
-            { key: 'Renault_Zoe', name: 'Renault Zoe', bodyType: 'Hatchback', isElectric: true, image: 'cars/Renault_Zoe.jpeg' },
-            { key: 'Renault_Megane_E-Tech', name: 'Renault Megane E-Tech', bodyType: 'Hatchback', isElectric: true, image: 'cars/Renault_Megane_E-Tech.jpeg' },
-            { key: 'Renault_Kangoo_E-Tech', name: 'Renault Kangoo E-Tech', bodyType: 'Van', isElectric: true, image: 'cars/Renault_Kangoo_E-Tech.jpeg' },
-            { key: 'Mitsubishi_i-MiEV', name: 'Mitsubishi i-MiEV', bodyType: 'Hatchback', isElectric: true, image: 'cars/Mitsubishi_i-MiEV.jpeg' },
-            { key: 'Hyundai_Ioniq_5', name: 'Hyundai Ioniq 5', bodyType: 'SUV', isElectric: true, image: 'cars/Hyundai_Ioniq_5.jpeg' },
-            { key: 'Hyundai_Ioniq_6', name: 'Hyundai Ioniq 6', bodyType: 'Sedan', isElectric: true, image: 'cars/Hyundai_Ioniq_6.jpeg' },
-            { key: 'Hyundai_Kona_Electric', name: 'Hyundai Kona Electric', bodyType: 'SUV', isElectric: true, image: 'cars/Hyundai_Kona_Electric.jpeg' },
-            { key: 'Kia_EV6', name: 'Kia EV6', bodyType: 'SUV', isElectric: true, image: 'cars/Kia_EV6.jpeg' },
-            { key: 'Kia_EV9', name: 'Kia EV9', bodyType: 'SUV', isElectric: true, image: 'cars/Kia_EV9.jpeg' },
-            { key: 'Kia_Niro_EV', name: 'Kia Niro EV', bodyType: 'SUV', isElectric: true, image: 'cars/Kia_Niro_EV.jpeg' },
-            { key: 'Kia_Genesis_GV60', name: 'Genesis GV60', bodyType: 'SUV', isElectric: true, image: 'cars/Kia_Genesis_GV60.jpeg' },
-            { key: 'Kia_Electrified_GV70', name: 'Genesis Electrified GV70', bodyType: 'SUV', isElectric: true, image: 'cars/Kia_Electrified_GV70.jpeg' },
+            // Tesla
+            { key: 'Tesla_Model_S', name: 'Tesla Model S', bodyType: 'Sedan', isElectric: true, image: 'cars/Tesla_Model_S.jpg' },
+            { key: 'Tesla_Model_3', name: 'Tesla Model 3', bodyType: 'Sedan', isElectric: true, image: 'cars/Tesla_Model_3.jpg' },
+            { key: 'Tesla_Model_X', name: 'Tesla Model X', bodyType: 'SUV', isElectric: true, image: 'cars/Tesla_Model_X.jpg' },
+            { key: 'Tesla_Model_Y', name: 'Tesla Model Y', bodyType: 'SUV', isElectric: true, image: 'cars/Tesla_Model_Y.jpg' },
+            
+            // BYD
+            { key: 'BYD_Seal', name: 'BYD Seal', bodyType: 'Sedan', isElectric: true, image: 'cars/BYD_Seal.jpg' },
+            { key: 'BYD_Dolphin', name: 'BYD Dolphin', bodyType: 'Hatchback', isElectric: true, image: 'cars/BYD_Dolphin.jpg' },
+            
+            // Volkswagen
+            { key: 'Volkswagen_ID4', name: 'Volkswagen ID.4', bodyType: 'SUV', isElectric: true, image: 'cars/Volkswagen_ID4.jpg' },
+            
+            // BMW
+            { key: 'BMW_i3', name: 'BMW i3', bodyType: 'Hatchback', isElectric: true, image: 'cars/BMW_i3.jpg' },
+            { key: 'BMW_i4', name: 'BMW i4', bodyType: 'Sedan', isElectric: true, image: 'cars/BMW_i4.jpg' },
+            
+            // Mercedes-Benz (elektriskie)
+            { key: 'Mercedes-Benz_EQA', name: 'Mercedes-Benz EQA', bodyType: 'SUV', isElectric: true, image: 'cars/Mercedes-Benz_EQA.jpg' },
+            { key: 'Mercedes-Benz_EQS', name: 'Mercedes-Benz EQS', bodyType: 'Sedan', isElectric: true, image: 'cars/Mercedes-Benz_EQS.jpg' },
+            
+            // Mercedes-Benz (degvielas)
             { key: 'mercedes_benz_e_class', name: 'Mercedes-Benz E-Class', bodyType: 'Sedan', isElectric: false, image: 'cars/mercedes_benz_e_class.jpg' },
-            { key: 'mercedes_benz_g_class', name: 'Mercedes-Benz G-Class', bodyType: 'SUV', isElectric: false, image: 'cars/mercedes_benz_g_class.jpg' },
-            { key: 'mercedes_amg_one', name: 'Mercedes-AMG One', bodyType: 'Coupe', isElectric: false, image: 'cars/mercedes_amg_one.jpg' }
+            { key: 'mercedes_benz_g_class', name: 'Mercedes-Benz G-Class', bodyType: 'SUV', isElectric: false, image: 'cars/mercedes_benz_g_class.jpg' }
         ];
-    
-       function generateVehicle() {
+
+        function generateVehicle() {
             // Nejaušs numurs
             const randomNumber = Math.floor(Math.random() * 9999) + 1;
             const formattedNumber = randomNumber.toString().padStart(4, '0');
@@ -314,9 +269,11 @@
                 electricLetters[Math.floor(Math.random() * electricLetters.length)] :
                 regularLetters[Math.floor(Math.random() * regularLetters.length)];
             
+            const licenseNumber = `${randomLetters}-${formattedNumber}`;
+            
             // Atjaunina numurzīmi
-            document.getElementById('plate-number').textContent = `${randomLetters}-${formattedNumber}`;
-            document.getElementById('license-text').textContent = `${randomLetters}-${formattedNumber}`;
+            document.getElementById('plate-number').textContent = licenseNumber;
+            document.getElementById('license-text').textContent = licenseNumber;
             
             // Atjaunina auto informāciju
             document.getElementById('car-model').innerHTML = randomCar.name;
@@ -326,16 +283,15 @@
             // Elektriskā auto atzīme
             const electricBadge = document.getElementById('electric-badge');
             if (isElectric) {
-                electricBadge.style.display = 'inline';
-                electricBadge.textContent = 'Electric';
+                electricBadge.style.display = 'inline-block';
             } else {
-                electricBadge.style.display = 'electricBagde';
+                electricBadge.style.display = 'none';
             }
             
             // Maina numurzīmes stilu
             const licensePlate = document.getElementById('license-plate');
             if (isElectric) {
-                licensePlate.className = 'electro-license-plate';
+                licensePlate.className = 'electric-license-plate';
             } else {
                 licensePlate.className = 'license-plate';
             }
@@ -344,7 +300,7 @@
             const carImage = document.getElementById('car-image');
             carImage.src = randomCar.image;
             carImage.alt = randomCar.name;
-            carImage.style.display = 'allCars';
+            carImage.style.display = 'block';
         }
         
         // Ģenerē pirmo auto kad lapa ielādējas
