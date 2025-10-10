@@ -76,7 +76,6 @@
             letter-spacing: 3px;
             margin: 0;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-            /* PABĪDĀM UZ LABI - GALVENAIS LABOJUMS */
             margin-left: 20px;
         }
 
@@ -159,6 +158,10 @@
             margin: 20px 0;
             width: 100%;
             max-width: 400px;
+            min-height: 200px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         .car-image {
@@ -168,7 +171,19 @@
             max-height: 250px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             display: block;
-            margin: 0 auto;
+        }
+
+        .placeholder-image {
+            width: 300px;
+            height: 200px;
+            background: linear-gradient(45deg, #ddd, #eee);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #666;
+            font-size: 16px;
+            border: 2px dashed #ccc;
         }
 
         button {
@@ -221,9 +236,10 @@
             </div>
         </div>
         
-        <!-- ATTĒLA KONTEINERS - PIEVIENOTS -->
+        <!-- ATTĒLA KONTEINERS -->
         <div class="car-image-container">
-            <img id="car-image" class="car-image" src="" alt="Random Vehicle">
+            <img id="car-image" class="car-image" src="" alt="Random Vehicle" style="display: none;">
+            <div id="image-placeholder" class="placeholder-image">Vehicle Image</div>
         </div>
         
         <button onclick="generateVehicle()">Generate New Vehicle</button>
@@ -232,23 +248,27 @@
     <script>
         const allCars = [
             // Tesla
-            { key: 'Tesla_Model_S', name: 'Tesla Model S', bodyType: 'Sedan', isElectric: true, image: 'https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=400&h=250&fit=crop' },
-            { key: 'Tesla_Model_3', name: 'Tesla Model 3', bodyType: 'Sedan', isElectric: true, image: 'https://images.unsplash.com/photo-1617788138017-80ad40651399?w=400&h=250&fit=crop' },
-            { key: 'Tesla_Model_X', name: 'Tesla Model X', bodyType: 'SUV', isElectric: true, image: 'https://images.unsplash.com/photo-1563001527-6b965e6b3b88?w=400&h=250&fit=crop' },
-            { key: 'Tesla_Model_Y', name: 'Tesla Model Y', bodyType: 'SUV', isElectric: true, image: 'https://images.unsplash.com/photo-1628238579159-72011463fb8a?w=400&h=250&fit=crop' },
+            { key: 'Tesla_Model_S', name: 'Tesla Model S', bodyType: 'Sedan', isElectric: true, image: 'https://via.placeholder.com/400x250/4A90E2/FFFFFF?text=Tesla+Model+S' },
+            { key: 'Tesla_Model_3', name: 'Tesla Model 3', bodyType: 'Sedan', isElectric: true, image: 'https://via.placeholder.com/400x250/4A90E2/FFFFFF?text=Tesla+Model+3' },
+            { key: 'Tesla_Model_X', name: 'Tesla Model X', bodyType: 'SUV', isElectric: true, image: 'https://via.placeholder.com/400x250/4A90E2/FFFFFF?text=Tesla+Model+X' },
+            { key: 'Tesla_Model_Y', name: 'Tesla Model Y', bodyType: 'SUV', isElectric: true, image: 'https://via.placeholder.com/400x250/4A90E2/FFFFFF?text=Tesla+Model+Y' },
             
             // BMW
-            { key: 'BMW_i3', name: 'BMW i3', bodyType: 'Hatchback', isElectric: true, image: 'https://images.unsplash.com/photo-1621135802920-133df287f89c?w=400&h=250&fit=crop' },
-            { key: 'BMW_i4', name: 'BMW i4', bodyType: 'Sedan', isElectric: true, image: 'https://images.unsplash.com/photo-1621145471956-63a1c0ef6b7e?w=400&h=250&fit=crop' },
-            { key: 'BMW_iX', name: 'BMW iX', bodyType: 'SUV', isElectric: true, image: 'https://images.unsplash.com/photo-1632886255678-53bb54b06f2e?w=400&h=250&fit=crop' },
+            { key: 'BMW_i3', name: 'BMW i3', bodyType: 'Hatchback', isElectric: true, image: 'https://via.placeholder.com/400x250/2E86AB/FFFFFF?text=BMW+i3' },
+            { key: 'BMW_i4', name: 'BMW i4', bodyType: 'Sedan', isElectric: true, image: 'https://via.placeholder.com/400x250/2E86AB/FFFFFF?text=BMW+i4' },
+            { key: 'BMW_iX', name: 'BMW iX', bodyType: 'SUV', isElectric: true, image: 'https://via.placeholder.com/400x250/2E86AB/FFFFFF?text=BMW+iX' },
             
-            // Mercedes-Benz (elektriskie)
-            { key: 'Mercedes-Benz_EQA', name: 'Mercedes-Benz EQA', bodyType: 'SUV', isElectric: true, image: 'https://images.unsplash.com/photo-1621155347303-40e9c14cec83?w=400&h=250&fit=crop' },
-            { key: 'Mercedes-Benz_EQS', name: 'Mercedes-Benz EQS', bodyType: 'Sedan', isElectric: true, image: 'https://images.unsplash.com/photo-1621145472480-83104c5ae4a1?w=400&h=250&fit=crop' },
+            // Mercedes-Benz
+            { key: 'Mercedes-Benz_EQA', name: 'Mercedes-Benz EQA', bodyType: 'SUV', isElectric: true, image: 'https://via.placeholder.com/400x250/000000/FFFFFF?text=Mercedes+EQA' },
+            { key: 'Mercedes-Benz_EQS', name: 'Mercedes-Benz EQS', bodyType: 'Sedan', isElectric: true, image: 'https://via.placeholder.com/400x250/000000/FFFFFF?text=Mercedes+EQS' },
+            { key: 'mercedes_benz_e_class', name: 'Mercedes-Benz E-Class', bodyType: 'Sedan', isElectric: false, image: 'https://via.placeholder.com/400x250/000000/FFFFFF?text=Mercedes+E-Class' },
+            { key: 'mercedes_benz_g_class', name: 'Mercedes-Benz G-Class', bodyType: 'SUV', isElectric: false, image: 'https://via.placeholder.com/400x250/000000/FFFFFF?text=Mercedes+G-Class' },
             
-            // Mercedes-Benz (degvielas)
-            { key: 'mercedes_benz_e_class', name: 'Mercedes-Benz E-Class', bodyType: 'Sedan', isElectric: false, image: 'https://images.unsplash.com/photo-1621135802920-133df287f89c?w=400&h=250&fit=crop' },
-            { key: 'mercedes_benz_g_class', name: 'Mercedes-Benz G-Class', bodyType: 'SUV', isElectric: false, image: 'https://images.unsplash.com/photo-1621145472480-83104c5ae4a1?w=400&h=250&fit=crop' }
+            // Volkswagen
+            { key: 'Volkswagen_ID4', name: 'Volkswagen ID.4', bodyType: 'SUV', isElectric: true, image: 'https://via.placeholder.com/400x250/00579F/FFFFFF?text=VW+ID.4' },
+            
+            // Audi
+            { key: 'Audi_e-tron', name: 'Audi e-tron', bodyType: 'SUV', isElectric: true, image: 'https://via.placeholder.com/400x250/FF0000/FFFFFF?text=Audi+e-tron' }
         ];
 
         function generateVehicle() {
@@ -298,9 +318,18 @@
             
             // Atjaunina attēlu - GALVENAIS LABOJUMS
             const carImage = document.getElementById('car-image');
-            carImage.src = randomCar.image;
-            carImage.alt = randomCar.name;
-            carImage.style.display = 'block';
+            const imagePlaceholder = document.getElementById('image-placeholder');
+            
+            if (randomCar.image) {
+                carImage.src = randomCar.image;
+                carImage.alt = randomCar.name;
+                carImage.style.display = 'block';
+                imagePlaceholder.style.display = 'none';
+            } else {
+                carImage.style.display = 'none';
+                imagePlaceholder.style.display = 'flex';
+                imagePlaceholder.textContent = randomCar.name;
+            }
         }
         
         // Ģenerē pirmo auto kad lapa ielādējas
