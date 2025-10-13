@@ -165,6 +165,9 @@
             font-size: 18px;
             font-weight: bold;
             text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
         }
 
         .tesla { background: linear-gradient(135deg, #e31837, #000000); }
@@ -219,7 +222,8 @@
         </div>
         
         <div class="car-image-container">
-            <div id="car-image" class="allCars"></div>
+            <!-- LABOTS: Noņemts "allCars" klase un atstāta tikai "car-image" -->
+            <div id="car-image" class="car-image"></div>
         </div>
         
         <div class="vehicle-info">
@@ -244,7 +248,6 @@
         </div>
         <button onclick="generateVehicle()">Generate</button>
     </div>
-
     <script>
         const allCars = [
     { key: 'Tesla_Model_S', name: 'Tesla Model S', bodyType: 'Sedan', isElectric: true, brand: 'tesla', image: 'cars/Tesla_Model_S.jpeg' },
@@ -330,7 +333,7 @@
     { key: 'mercedes_amg_one', name: 'Mercedes-AMG One', bodyType: 'Coupe', isElectric: false, brand: 'mercedes', image: 'cars/mercedes_amg_one.jpg' }
 ];
 
-        function generateVehicle() {
+      function generateVehicle() {
             // Nejaušs numurs
             const randomNumber = Math.floor(Math.random() * 9999) + 1;
             const formattedNumber = randomNumber.toString().padStart(4, '0');
@@ -375,7 +378,7 @@
                 licensePlate.classList.remove('electric-license-plate');
             }
             
-            // Atjaunina attēlu
+            // LABOTS: Atjaunina attēlu
             const carImage = document.getElementById('car-image');
             
             // Noņem visas brand klases
@@ -384,8 +387,14 @@
             // Pievieno pareizo brand klasi
             carImage.classList.add(randomCar.brand);
             
-            // Iestata auto nosaukumu
-            carImage.textContent = randomCar.name;
+            // LABOTS: Iestata attēlu vai tekstu atkarībā no tā, vai attēls ir pieejams
+            if (randomCar.image) {
+                carImage.style.backgroundImage = `url('${randomCar.image}')`;
+                carImage.textContent = ''; // Noņem tekstu, ja ir attēls
+            } else {
+                carImage.style.backgroundImage = 'none';
+                carImage.textContent = randomCar.name; // Rāda tekstu, ja nav attēla
+            }
         }
         
         // Ģenerē pirmo auto kad lapa ielādējas
