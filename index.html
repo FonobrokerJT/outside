@@ -176,15 +176,17 @@
             transform: scale(1.05);
         }
 
-                .car-image {
-            width: 400px;
-            height: 250px;
+        .car-image {
+            width: auto;
+            height: auto;
+            max-width: 400px;  /* var ielikt maksimālo platumu */
+            max-height: 400px; /* var ielikt maksimālo augstumu */
             border-radius: 10px;
-            object-fit: cover;
+            object-fit: contain; /* vai pat noņemt object-fit */
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             margin: 20px 0;
         }
-
+        
         .image-placeholder {
             width: 400px;
             height: 250px;
