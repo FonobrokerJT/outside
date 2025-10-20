@@ -175,6 +175,30 @@
             background-color: #7A1526;
             transform: scale(1.05);
         }
+
+                .car-image {
+            width: 400px;
+            height: 250px;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            margin: 20px 0;
+        }
+
+        .image-placeholder {
+            width: 400px;
+            height: 250px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #2e86ab, #000000);
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+
     </style>
 </head>
 <body>
@@ -203,8 +227,8 @@
             </div>
         </div>
         
-        <div id="carImageContainer">
-        </div>
+        <!-- Vienkārši img elements bez container -->
+        <img id="carImage" class="car-image" src="" alt="Car image" style="display: none;">
         
         <button onclick="generateVehicle()">Generate</button>
     </div>
@@ -286,9 +310,6 @@
             { name: "Mercedes AMG One", filename: "mercedes_amg_one.jpg", type: "regular", body: "Coupe" }
 ];
 
-        const electricLetters = ["EY", "EX"];
-        const regularLetters = ["AB", "CD", "EF", "GH", "IJ", "KL", "MN", "OP", "QR", "ST", "UV", "WX", "YZ"];
-
         function generateVehicle() {
             const randomNumber = Math.floor(Math.random() * 9999) + 1;
             const formattedNumber = randomNumber.toString().padStart(4, '0');
@@ -326,14 +347,16 @@
             const electricBadge = document.getElementById('electricBadge');
             electricBadge.style.display = isElectric ? 'inline-block' : 'none';
             
-            const carImageContainer = document.getElementById('carImageContainer');
-            carImageContainer.innerHTML = `
-                <div style="width: 400px; height: 250px; background: linear-gradient(135deg, #2e86ab, #000000); 
-                            border-radius: 10px; display: flex; align-items: center; justify-content: center; 
-                            color: white; font-size: 20px; font-weight: bold;">
-                    ${randomCar.name}
-                </div>
-            `;
+            // Vienkārši mainam img src
+            const carImage = document.getElementById('carImage');
+            carImage.src = `cars/${randomCar.filename}`;
+            carImage.alt = randomCar.name;
+            carImage.style.display = 'block';
+            
+            carImage.onerror = function() {
+                // Ja attēls nav atrasts, paslēpjam to
+                carImage.style.display = 'none';
+            };
         }
 
         window.onload = generateVehicle;
