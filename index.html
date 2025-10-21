@@ -214,8 +214,6 @@
                 </div>
             </div>
         </div>
-        
-        <!-- Vienkārši img elements bez container -->
         <img id="carImage" class="car-image" src="" alt="Car image" style="display: none;">
         
         <button onclick="generateVehicle()">Generate</button>
@@ -339,14 +337,12 @@
             const electricBadge = document.getElementById('electricBadge');
             electricBadge.style.display = isElectric ? 'inline-block' : 'none';
             
-            // Vienkārši mainam img src
             const carImage = document.getElementById('carImage');
             carImage.src = `cars/${randomCar.filename}`;
             carImage.alt = randomCar.name;
             carImage.style.display = 'block';
             
             carImage.onerror = function() {
-                // Ja attēls nav atrasts, paslēpjam to
                 carImage.style.display = 'none';
             };
         }
