@@ -158,63 +158,63 @@
             max-width: 400px;
         }
 
-        button {
-            margin-top: 20px;
-            padding: 20px 30px;
-            font-size: 17px;
-            cursor: pointer;
-            background: transparent;
-            color: #fff;
-            text-transform: uppercase;
-            font-weight: 600;
+        .btn-class-name {
+            --primary: 155, 27, 48;    /* Sarkans tonis kas atbilst tavam oriģinālajam */
+            --secondary: 255, 255, 255; /* Balts */
+            width: 160px;               /* Palielināts platums */
+            height: 60px;               /* Palielināts augstums */
             border: none;
-            perspective: 30rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.308);
+            outline: none;
+            cursor: pointer;
+            user-select: none;
+            touch-action: manipulation;
+            outline: 4px solid rgba(var(--primary), 0.5);
+            border-radius: 30px;        /* Ovāla forma nevis aplis */
             position: relative;
-            overflow: hidden;
-            transition: all 0.3s;
-            font-weight: bold;
+            transition: .3s;
+            margin-top: 20px;
         }
 
-        button::before {
-            content: "";
-            display: block;
+        .btn-class-name .back {
+            background: rgb(var(--primary));
+            border-radius: 30px;
             position: absolute;
+            left: 0;
+            top: 0;
             width: 100%;
             height: 100%;
-            top: 0;
+        }
+
+        .btn-class-name .front {
+            background: linear-gradient(0deg, rgba(var(--primary), 0.8) 20%, rgba(var(--primary), 1) 50%);
+            box-shadow: 0 .5em 1em -0.2em rgba(var(--primary), 0.5);
+            border-radius: 30px;
+            position: absolute;
+            border: 1px solid rgb(var(--primary));
             left: 0;
-            border-radius: 10px;
-            background: linear-gradient(
-                320deg,
-                rgba(0, 140, 255, 0.678),
-                rgba(128, 0, 128, 0.308)
-            );
-            z-index: 1;
-            transition: background 3s;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: inherit;
+            transform: translateY(-10%);
+            transition: .15s;
+            color: rgb(var(--secondary));
+            text-transform: uppercase;
         }
 
-        button:hover::before {
-            animation: rotate 1s;
-            transition: all 0.5s;
+        .btn-class-name:active .front {
+            transform: translateY(0%);
+            box-shadow: 0 0;
         }
 
-        @keyframes rotate {
-        0% {
-            transform: rotateY(180deg);
+        .btn-class-name:hover {
+            transform: scale(1.05);
         }
-
-        100% {
-            transform: rotateY(360deg);
-        }
-        }
-
-        button span {
-            position: realative;
-            z-index: 2;
-        }
-
 
         .car-image {
             width: auto;
@@ -256,7 +256,10 @@
         </div>
         <img id="carImage" class="car-image" src="" alt="Car image" style="display: none;">
         
-        <button onclick="generateVehicle()"><span>Generate</span></button>
+        <button class="btn-class-name" onclick="generateVehicle()">
+            <div class="back"></div>
+            <div class="front">Generate</div>
+        </button>
     </div>
 
     <script>
